@@ -18,24 +18,24 @@ window.onload = function() {
 
             var b = (function() {
                 var result;
-                var r = ~~(Math.random() * 3);
+                var r = ~~(Math.random(3));
                 switch (r) {
                 case 0:
-                    var r = Math.random() * 0.5;
+                    var r = Math.random(0.1, 0.5);
                     result = new Sphere(r);
                     result.bounding.radius = r;
                     break;
                 case 1:
-                    var r = Math.random() * 0.5;
+                    var r = Math.random(0.1, 0.5);
                     result = new Cube(r);
                     result.bounding = new AABB();
                     result.bounding.scale = r;
                     break;
                 case 2:
                 default:
-                    var x = Math.random() * 0.5;
-                    var y = Math.random() * 0.5;
-                    var z = Math.random() * 0.5;
+                    var x = Math.random(0.1, 0.5);
+                    var y = Math.random(0.1, 0.5);
+                    var z = Math.random(0.1, 0.5);
                     result = new Box(x, y, z);
                     result.bounding = new AABB2();
                     result.bounding.scaleX = x;
@@ -45,15 +45,16 @@ window.onload = function() {
                 }
                 return result;
             })();
-            b.x = Math.random() * 4 - 2;
+            b.x = Math.random(-3, 3);
             b.y = 2;
             b.z = 0;
             b.on("enterframe", function() {
-                this.y -= 0.1;
                 if (this.intersect(cube)) {
                     this.mesh.setBaseColor([ 1, 1, 0, 1 ]);
+                    this.y -= 0.02;
                 } else {
                     this.mesh.setBaseColor([ 1, 1, 1, 1 ]);
+                    this.y -= 0.1;
                 }
                 if (this.y < -2) {
                     this.parentNode.removeChild(this);
@@ -62,5 +63,7 @@ window.onload = function() {
             scene.addChild(b);
         });
     });
+
     game.start();
+
 };
