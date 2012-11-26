@@ -15,9 +15,36 @@ window.onload = function() {
             if (this.frame % 10 !== 0) {
                 return;
             }
-            var b = new Sphere();
-            b.scale(0.3, 0.3, 0.3);
-            b.bounding.radius = 0.3;
+
+            var b = (function() {
+                var result;
+                var r = ~~(Math.random() * 3);
+                switch (r) {
+                case 0:
+                    var r = Math.random() * 0.5;
+                    result = new Sphere(r);
+                    result.bounding.radius = r;
+                    break;
+                case 1:
+                    var r = Math.random() * 0.5;
+                    result = new Cube(r);
+                    result.bounding = new AABB();
+                    result.bounding.scale = r;
+                    break;
+                case 2:
+                default:
+                    var x = Math.random() * 0.5;
+                    var y = Math.random() * 0.5;
+                    var z = Math.random() * 0.5;
+                    result = new Box(x, y, z);
+                    result.bounding = new AABB2();
+                    result.bounding.scaleX = x;
+                    result.bounding.scaleY = y;
+                    result.bounding.scaleZ = z;
+                    break;
+                }
+                return result;
+            })();
             b.x = Math.random() * 4 - 2;
             b.y = 2;
             b.z = 0;
